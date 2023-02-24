@@ -1,11 +1,12 @@
 const express = require("express");
+const authMiddleware = require("../middleware/authMiddleware");
 const seatService = require("../services/seatService");
 
 const router = express.Router();
 
 //Seat Booking CRUD APIs
-router.post('/reserve', seatService.reserveSeat);
+router.post('/reserve', authMiddleware.verifyToken, seatService.reserveSeat);
 
-router.post('/reset', seatService.resetSeat);
+router.post('/reset',authMiddleware.verifyToken, seatService.resetSeat);
 
 module.exports = router;

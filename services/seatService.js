@@ -4,9 +4,10 @@ const reserveSeat = async (req, res) => {
             "success": 1,
         })
     } catch (error) {
+        console.log(error.stack)
         return res.status(500).send({
             "success": 0,
-            "errorMessage": error.errorMessage
+            "errorMessage": error.message
         })
     }
 }
@@ -17,9 +18,10 @@ const resetSeat = async (req, res) => {
             "success": 1,
         })
     } catch (error) {
+        console.log(error.stack)
         return res.status(500).send({
             "success": 0,
-            "errorMessage": error.errorMessage
+            "errorMessage": error.message
         })
     }
 }
