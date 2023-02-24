@@ -8,6 +8,8 @@ const cors = require('cors');
 const loginRouter = require("./router/loginRouter");
 const seatRouter = require("./router/seatRouter");
 
+const loggerMiddleware = require("./middleware/loggerMiddleware");
+
 const AWS = require('aws-sdk');
 
 AWS.config.update({
@@ -37,6 +39,8 @@ const addDefaultHeaders = (req, res, next) => {
 }
 
 app.all("*", addDefaultHeaders);
+
+app.use(loggerMiddleware.logReqRes);
 
 app.use(loginRouter);
 app.use('/seat', seatRouter);
