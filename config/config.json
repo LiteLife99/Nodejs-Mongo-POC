@@ -8,7 +8,7 @@
             "appLogStream": "my-kinesis-logs-stream"
         },
         "mongodb": {
-            "MONGO_URI": "mongodb://localhost:27017/"
+            "MONGO_URI": "mongodb://localhost:27017/SukasaAir"
         },
         "authSecret": "mySecretKey123"
     },
@@ -21,7 +21,7 @@
             "appLogStream": "my-kinesis-logs-stream"
         },
         "mongodb": {
-            "MONGO_URI": "mongodb://localhost:27017/"
+            "MONGO_URI": "mongodb://localhost:27017/SukasaAir"
         },
         "authSecret": "mySecretKey123"
     }
