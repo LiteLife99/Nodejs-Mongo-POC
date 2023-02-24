@@ -24,6 +24,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//connect to mongodb database
+require("./mongodbModels/connection").connect();
+
 app.listen(port, () => console.log(`App is listening on port ${port}!`));
 
 const addDefaultHeaders = (req, res, next) => {

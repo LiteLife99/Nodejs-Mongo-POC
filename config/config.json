@@ -7,6 +7,9 @@
         "logStreams": {
             "appLogStream": "my-kinesis-logs-stream"
         },
+        "mongodb": {
+            "MONGO_URI": "mongodb://localhost:27017/"
+        },
         "authSecret": "mySecretKey123"
     },
     "production": {
@@ -16,6 +19,9 @@
         },
         "logStreams": {
             "appLogStream": "my-kinesis-logs-stream"
+        },
+        "mongodb": {
+            "MONGO_URI": "mongodb://localhost:27017/"
         },
         "authSecret": "mySecretKey123"
     }
