@@ -7,16 +7,9 @@ const cors = require('cors');
 
 const loginRouter = require("./router/loginRouter");
 const seatRouter = require("./router/seatRouter");
+const flightRouter = require("./router/flightRouter");
 
 const loggerMiddleware = require("./middleware/loggerMiddleware");
-
-const AWS = require('aws-sdk');
-
-AWS.config.update({
-    accessKeyId: config["aws"]["accessKey"],
-    secretAccessKey: config["aws"]["secretKey"],
-    region: 'ap-south-1'
-});
 
 const app = express();
 const port = 8081;
@@ -44,6 +37,7 @@ app.use(loggerMiddleware.logReqRes);
 
 app.use(loginRouter);
 app.use('/seat', seatRouter);
+app.use('/flight', flightRouter);
 
 app.get('/healthCheck', async (req, res) => {
     res.send("I am healthy")
