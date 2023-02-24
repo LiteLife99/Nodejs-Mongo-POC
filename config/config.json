@@ -1,0 +1,22 @@
+{
+    "test": {
+        "aws": {
+            "accessKey": "abcd",
+            "secretKey": "xyz"
+        },
+        "logStreams": {
+            "appLogStream": "my-kinesis-logs-stream"
+        },
+        "authSecret": "mySecretKey123"
+    },
+    "production": {
+        "aws": {
+            "accessKey": "abcd",
+            "secretKey": "xyz"
+        },
+        "logStreams": {
+            "appLogStream": "my-kinesis-logs-stream"
+        },
+        "authSecret": "mySecretKey123"
+    }
+}
