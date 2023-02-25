@@ -7,7 +7,7 @@ const seatSchema = new Schema({
         required: true 
     },
     passengerId: { 
-        type: mongoose.ObjectId, 
+        type: String, 
         required: true 
     },
     available: { 
@@ -16,9 +16,24 @@ const seatSchema = new Schema({
         default: false
     },
     flightId: { 
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         required: true 
-    }
+    },
+    passengerPhone : {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    passengerName: {
+        type: String,
+        required: true,
+        default: ""
+    }, 
+    passengerAge: {
+        type: Number,
+        required: true,
+        default: 0
+    },
 }, {timestamps: true})
 
 module.exports = mongoose.model('Seat', seatSchema)

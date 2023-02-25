@@ -2,11 +2,6 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const flightSchema = new Schema({
-    flightId: { 
-        type: Number,
-        required: true,
-        unique: true
-    },
     numOfSeats: { 
         type: Number, 
         required: true 

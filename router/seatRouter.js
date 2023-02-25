@@ -7,6 +7,6 @@ const router = express.Router();
 //Seat Booking CRUD APIs
 router.post('/reserve', authMiddleware.verifyToken, seatService.reserveSeat);
 
-router.post('/reset', authMiddleware.verifyToken, seatService.resetSeat);
+router.post('/reset', authMiddleware.verifyToken, seatService.resetSeats);
 
 module.exports = router;

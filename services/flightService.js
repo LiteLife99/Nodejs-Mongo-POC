@@ -5,9 +5,9 @@ const scheduleFlight = async(req, res) => {
     try {
         let reqBody = req.body;
 
-        const {flightId, airlines, numOfSeats} = reqBody;
+        const {airlines, numOfSeats} = reqBody;
 
-        if (!(flightId && airlines && numOfSeats)) {
+        if (!(airlines && numOfSeats)) {
             return res.status(400).send(
                 {
                     "success": 0,
@@ -15,16 +15,20 @@ const scheduleFlight = async(req, res) => {
                 });
         }
 
-        if(!Number.isInteger(flightId) || !Number.isInteger(numOfSeats))
-            return res.status(400).send({ "success": 0, "errorMessage": "Wrong Input for flightId"}); 
+        if(!Number.isInteger(numOfSeats))
+            return res.status(400).send({ "success": 0, "errorMessage": "Wrong Input"});
+
+        if( numOfSeats < 1 || numOfSeats > 300 )
+            return res.status(400).send({"success": 0, "errorMessage": "Wrong number of seats"})
 
         //create entry for a flight
-        const flightCreated = await Flight.create({
-            flightId: flightId,
+        let flightCreated = await Flight.create({
             airlines: airlines,
             numOfSeats: numOfSeats,
             numOfBookedSeats: 0
         })
+        
+        console.log(flightCreated)
 
         //generate seat entries
         let seatsArr = [];
@@ -32,9 +36,12 @@ const scheduleFlight = async(req, res) => {
         for(let i = 1; i <= numOfSeats; i++) {
             seatsArr.push({
                 seatNumber: i,
-                passengerId: "",
+                passengerId: "0",
                 available: true,
-                flightId: flightId
+                flightId: flightCreated._id,
+                passengerName: "DummyUser",
+                passengerAge: 0,
+                passengerPhone: 0
             })
         }
 

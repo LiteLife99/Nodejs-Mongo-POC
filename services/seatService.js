@@ -1,11 +1,22 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const Flight = require("../mongodbModels/Flight");
 const Seat = require("../mongodbModels/Seat");
 
 const reserveSeat = async (req, res) => {
     try {
         let reqBody = req.body;
-        const {flightId, seatNumber} = reqBody;
+        const {flightId, seatNumber, passengerPhone, passengerName, passengerAge} = reqBody;
         const passengerId =  req.user.user_id;
+
+        //validations
+        if(!Number.isInteger(seatNumber) || seatNumber < 1 || seatNumber > 300 )
+            return res.status(400).send({"success": 0, "errorMessage": "Wrong Seat Number"})
+
+        if(!(flightId && seatNumber && passengerPhone && passengerName && passengerAge))
+            return res.status(400).send({"success": 0, "errorMessage": "Missing Parameters"})
+        
+        if(!Number.isInteger(passengerPhone) || !Number.isInteger(passengerAge))
+            return res.status(400).send({"success": 0, "errorMessage": "Wrong Input"})
 
         const session = await mongoose.startSession()
         session.startTransaction()
@@ -19,7 +30,10 @@ const reserveSeat = async (req, res) => {
             const slot = await Seat.findOneAndUpdate(query, {
                 $set: {
                     passengerId: passengerId,
-                    available: false
+                    available: false,
+                    passengerName: passengerName,
+                    passengerAge: passengerAge,
+                    passengerPhone: passengerPhone
                 }
             }, { useFindAndModify: false, new: true })
 
@@ -32,22 +46,30 @@ const reserveSeat = async (req, res) => {
                 })
             }
 
+            //increment numOfBookedSeats for that flight
+            const flight = await Flight.findOneAndUpdate(
+                {_id: flightId}, 
+                {$inc : {'numOfBookedSeats' : 1}
+            }, { useFindAndModify: false, new: true })
+
+            console.log(flight)
+
             await session.commitTransaction()
-            
+
             return res.status(200).send({ 
                 "success": 1,
                 "message": 'Seat is successfully booked',
                 "seat": slot
             })
         } catch (error) {
-          await session.abortTransaction()
-          console.log(error.stack)
+            await session.abortTransaction()
+            console.log(error.stack)
             return res.status(500).send({
                 "success": 0,
                 "errorMessage": error.message
             })
         } finally {
-          session.endSession()
+            session.endSession()
         }
 
     } catch (error) {
@@ -59,11 +81,44 @@ const reserveSeat = async (req, res) => {
     }
 }
 
-const resetSeat = async (req, res) => {
+const resetSeats = async (req, res) => {
     try {
-        return res.status(200).send({
+        let reqBody = req.body;
+        const {flightId} = reqBody;
+        const userEmail =  req.user.email;
+
+        if(userEmail !== "admin@sukasaair.com")
+            return res.status(400).send({"success": 0, "errorMessage": "You Are not authorised to reset seats"})
+
+        const query = {
+            flightId: flightId,
+        }
+        
+        //reset all seats of that flightId
+        const updatedSeats = await Seat.updateMany(query, {
+            $set: {
+                passengerId: "0",
+                available: false,
+                passengerName: "DummyUser",
+                passengerAge: 0,
+                passengerPhone: 0
+            }
+        }, {multi: true, new: true })
+        
+        //reset booked seats count for the flight
+        const flight = await Flight.findOneAndUpdate(
+            {_id: flightId}, 
+            {$set : {'numOfBookedSeats' : 0}
+        }, { useFindAndModify: false, new: true })
+
+        console.log(flight)
+
+        return res.status(200).send({ 
             "success": 1,
+            "message": 'Reset Successful',
+            "updatedSeats": updatedSeats
         })
+
     } catch (error) {
         console.log(error.stack)
         return res.status(500).send({
@@ -75,5 +130,5 @@ const resetSeat = async (req, res) => {
 
 module.exports = {
     reserveSeat: reserveSeat,
-    resetSeat: resetSeat
+    resetSeats: resetSeats
 }
