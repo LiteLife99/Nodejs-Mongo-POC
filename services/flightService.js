@@ -63,21 +63,20 @@ const scheduleFlight = async(req, res) => {
     
 }
 
-const fetchFlightDetails = async(req, res) => {
-try {
-    return res.status(200).send({
-        "success": 1
-    })
-} catch (error) {
-    console.log(error.stack)
-        return res.status(500).send({
-            "success": 0,
-            "errorMessage": error.message
-        })
-}
-}
+// const fetchFlightDetails = async(req, res) => {
+//     try {
+//         return res.status(200).send({
+//             "success": 1
+//         })
+//     } catch (error) {
+//         console.log(error.stack)
+//             return res.status(500).send({
+//                 "success": 0,
+//                 "errorMessage": error.message
+//             })
+//     }
+// }
 
 module.exports = {
     scheduleFlight: scheduleFlight,
-    fetchFlightDetails: fetchFlightDetails
 }

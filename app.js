@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 //connect to mongodb database
 require("./mongodbModels/connection").connect();
 
-app.listen(port, () => console.log(`App is listening on port ${port}!`));
+// app.listen(port, () => console.log(`App is listening on port ${port}!`));
 
 const addDefaultHeaders = (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -71,3 +71,5 @@ process.on('uncaughtException', exceptionHandler);
 
 // catching unhandled rejections
 process.on('unhandledRejection', exceptionHandler);
+
+module.exports = app;

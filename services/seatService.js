@@ -87,6 +87,9 @@ const resetSeats = async (req, res) => {
         const {flightId} = reqBody;
         const userEmail =  req.user.email;
 
+        if(!flightId)
+            return res.status(400).send({"success": 0, "errorMessage": "Please pass flightId"}) //should check if flightId is a valid mongodb id or not, #TO-DO
+
         if(userEmail !== "admin@sukasaair.com")
             return res.status(400).send({"success": 0, "errorMessage": "You Are not authorised to reset seats"})
 

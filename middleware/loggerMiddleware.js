@@ -9,7 +9,7 @@ function logReqRes(req, res, next) {
         oldEnd = res.end;
       var chunks = [];
   
-      if(env === 'production'){
+      if(env === 'production' || env == 'test'){
         res.write = function(chunk) {
           chunks.push(typeof chunk === 'object' ? Buffer.from(JSON.stringify(chunk)) : Buffer.from(chunk));
       
@@ -52,8 +52,8 @@ function logReqRes(req, res, next) {
             httpStatusCode : res.statusCode
           };
           
-          console.log(dataLog);
-          firehoseUtil.addLog(dataLog);
+          // console.log(dataLog);
+          // firehoseUtil.addLog(dataLog);
       
           oldEnd.apply(res, arguments);
         };
