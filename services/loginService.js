@@ -87,7 +87,7 @@ const login = async (req, res) => {
                 { user_id: user._id, email },
                 config["authSecret"],
                 {
-                    expiresIn: "15m", // valid for 15 minutes
+                    expiresIn: "30m", // valid for 30 minutes
                 }
             );
 

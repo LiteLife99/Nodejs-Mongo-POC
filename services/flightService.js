@@ -32,7 +32,7 @@ const scheduleFlight = async(req, res) => {
         for(let i = 1; i <= numOfSeats; i++) {
             seatsArr.push({
                 seatNumber: i,
-                passengerId: req.user.user_id,
+                passengerId: "",
                 available: true,
                 flightId: flightId
             })

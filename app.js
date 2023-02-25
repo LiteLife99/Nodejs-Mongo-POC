@@ -12,7 +12,7 @@ const flightRouter = require("./router/flightRouter");
 const loggerMiddleware = require("./middleware/loggerMiddleware");
 
 const app = express();
-const port = 8081;
+const port = process.env.port || 8081;
 
 app.use(cors());
 
