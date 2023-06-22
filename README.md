@@ -4,7 +4,7 @@
 
 Steps to run the repo: 
 1. Clone the repo -> git clone https://github.com/LiteLife99/Nodejs-Mongo-POC.git
-2. 2. cd into cloned directory 
+2. cd into cloned directory 
 3. nvm use 16 (14+ compatible) 
 4. Install dependencies -> npm i 
 5. To start application -> npm start, to start in watch mode for development -> npm run dev 
